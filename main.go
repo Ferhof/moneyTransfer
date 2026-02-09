@@ -24,12 +24,33 @@ func main() {
 }
 
 func getUserInput() (float64, string, string) {
-	fmt.Print("Введите кол-во валюты для конвертации (0.00): ")
-	fmt.Scan(&userInput)
-	fmt.Print("Укажите валюту из которой конвертируем (EURO, USD, RUB): ")
-	fmt.Scan(&originalCurrency)
-	fmt.Print("Укажите валюту в которую конвертируем (EURO, USD, RUB): ")
-	fmt.Scan(&targetCurrency)
+	for {
+		fmt.Print("Введите кол-во валюты для конвертации (0.00): ")
+		fmt.Scan(&userInput)
+		if userInput >= 0 {
+			break
+		}
+		fmt.Print("Указаное кол-во должно быть больше 0.00")
+	}
+
+	for {
+		fmt.Print("Укажите валюту из которой конвертируем (EURO, USD, RUB): ")
+		fmt.Scan(&originalCurrency)
+		if originalCurrency == "EURO" || originalCurrency == "USD" || originalCurrency == "RUB" {
+			break
+		}
+		fmt.Println("Укажите валюту из доступных EURO, USD, RUB")
+	}
+
+	for {
+		fmt.Print("Укажите валюту в которую конвертируем (EURO, USD, RUB): ")
+		fmt.Scan(&targetCurrency)
+		if targetCurrency == "EURO" || targetCurrency == "USD" || targetCurrency == "RUB" {
+			break
+		}
+		fmt.Println("Укажите валюту из доступных EURO, USD, RUB")
+	}
+
 	return userInput, originalCurrency, targetCurrency
 }
 
