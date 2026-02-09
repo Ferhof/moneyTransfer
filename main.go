@@ -24,16 +24,52 @@ func main() {
 }
 
 func getUserInput() (float64, string, string) {
-	fmt.Print("Введите кол-во валюты для конвертации (0.00): ")
-	fmt.Scan(&userInput)
-	fmt.Print("Укажите валюту из которой конвертируем (EURO, USD, RUB): ")
-	fmt.Scan(&originalCurrency)
-	fmt.Print("Укажите валюту в которую конвертируем (EURO, USD, RUB): ")
-	fmt.Scan(&targetCurrency)
+	for {
+		fmt.Print("Введите кол-во валюты для конвертации (0.00): ")
+		fmt.Scan(&userInput)
+		result := checkUserInput(userInput)
+		if result {
+			break
+		}
+		fmt.Print("Указаное кол-во должно быть больше 0.00")
+	}
+
+	for {
+		fmt.Print("Укажите валюту из которой конвертируем (EURO, USD, RUB): ")
+		fmt.Scan(&originalCurrency)
+		result := checkCurrency(originalCurrency)
+		if result {
+			break
+		}
+		fmt.Println("Укажите валюту из доступных EURO, USD, RUB")
+	}
+
+	for {
+		fmt.Print("Укажите валюту в которую конвертируем (EURO, USD, RUB): ")
+		fmt.Scan(&targetCurrency)
+		result := checkCurrency(targetCurrency)
+		if result {
+			break
+		}
+		fmt.Println("Укажите валюту из доступных EURO, USD, RUB")
+	}
+
 	return userInput, originalCurrency, targetCurrency
 }
 
+func checkUserInput(value float64) bool {
+	return value >= 0
+}
+
+func checkCurrency(value string) bool {
+	return value == "EURO" || value == "USD" || value == "RUB"
+}
+
 func convert(value float64, originalCurrency string, targetCurrency string) float64 {
+	if originalCurrency == targetCurrency {
+		return value
+	}
+
 	switch originalCurrency {
 	case EURO:
 		switch targetCurrency {
@@ -53,10 +89,11 @@ func convert(value float64, originalCurrency string, targetCurrency string) floa
 	case RUB:
 		switch targetCurrency {
 		case EURO:
-			return value / USDinEUR
+			return value / EURinRUB
 		case USD:
 			return value / USDinRUB
 		}
 	}
+
 	return 0.0
 }
