@@ -71,6 +71,11 @@ func convert(value float64, originalCurrency string, targetCurrency string) floa
 	}
 
 	currencyList := make(map[string]map[string]float64)
+
+	currencyList[EURO] = make(map[string]float64)
+	currencyList[USD] = make(map[string]float64)
+	currencyList[RUB] = make(map[string]float64)
+
 	currencyList[EURO][USD] = 1.19
 	currencyList[EURO][RUB] = 91.63
 	currencyList[USD][EURO] = 0.84
