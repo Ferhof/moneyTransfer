@@ -70,30 +70,18 @@ func convert(value float64, originalCurrency string, targetCurrency string) floa
 		return value
 	}
 
-	switch originalCurrency {
-	case EURO:
-		switch targetCurrency {
-		case USD:
-			return value * USDinEUR
-		case RUB:
-			return value * EURinRUB
+	currencyList := make(map[string]map[string]float64)
 
-		}
-	case USD:
-		switch targetCurrency {
-		case EURO:
-			return value / USDinEUR
-		case RUB:
-			return value * USDinRUB
-		}
-	case RUB:
-		switch targetCurrency {
-		case EURO:
-			return value / EURinRUB
-		case USD:
-			return value / USDinRUB
-		}
-	}
+	currencyList[EURO] = make(map[string]float64)
+	currencyList[USD] = make(map[string]float64)
+	currencyList[RUB] = make(map[string]float64)
 
-	return 0.0
+	currencyList[EURO][USD] = 1.19
+	currencyList[EURO][RUB] = 91.63
+	currencyList[USD][EURO] = 0.84
+	currencyList[USD][RUB] = 77.10
+	currencyList[RUB][EURO] = 0.011
+	currencyList[RUB][USD] = 0.013
+
+	return value * currencyList[originalCurrency][targetCurrency]
 }
