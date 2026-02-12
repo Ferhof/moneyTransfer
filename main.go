@@ -15,7 +15,8 @@ var targetCurrency string
 func main() {
 	fmt.Println("--- Добро пожаловать в конвертер валют ---")
 	value, origin, target := getUserInput()
-	result := convert(value, origin, target)
+	currencyList := initCurrency()
+	result := convert(value, origin, target, currencyList)
 	fmt.Println("В рублях вы получите: ", result)
 }
 
@@ -61,11 +62,7 @@ func checkCurrency(value string) bool {
 	return value == "EURO" || value == "USD" || value == "RUB"
 }
 
-func convert(value float64, originalCurrency string, targetCurrency string) float64 {
-	if originalCurrency == targetCurrency {
-		return value
-	}
-
+func initCurrency() *map[string]map[string]float64 {
 	currencyList := make(map[string]map[string]float64)
 
 	currencyList[EURO] = make(map[string]float64)
@@ -78,6 +75,12 @@ func convert(value float64, originalCurrency string, targetCurrency string) floa
 	currencyList[USD][RUB] = 77.10
 	currencyList[RUB][EURO] = 0.011
 	currencyList[RUB][USD] = 0.013
+	return &currencyList
+}
 
-	return value * currencyList[originalCurrency][targetCurrency]
+func convert(value float64, originalCurrency string, targetCurrency string, currencyList *map[string]map[string]float64) float64 {
+	if originalCurrency == targetCurrency {
+		return value
+	}
+	return value * (*currencyList)[originalCurrency][targetCurrency]
 }
