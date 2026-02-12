@@ -4,10 +4,6 @@ import (
 	"fmt"
 )
 
-const USDinEUR float64 = 1.18
-const USDinRUB float64 = 76.75
-const EURinRUB float64 = USDinEUR * USDinRUB
-
 const EURO string = "EURO"
 const USD string = "USD"
 const RUB string = "RUB"
